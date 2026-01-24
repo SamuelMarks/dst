@@ -21,6 +21,7 @@ import (
 	"golang.org/x/tools/go/packages"
 )
 
+// TestDecorations_All tests the All method of Decorations.
 func TestDecorations_All(t *testing.T) {
 	d := &dst.Decorations{"a", "b"}
 	expected := "[a b]"
@@ -30,6 +31,7 @@ func TestDecorations_All(t *testing.T) {
 	}
 }
 
+// TestDecorations_Append tests the Append method of Decorations.
 func TestDecorations_Append(t *testing.T) {
 	d := &dst.Decorations{"a", "b"}
 	d.Append("c")
@@ -40,6 +42,7 @@ func TestDecorations_Append(t *testing.T) {
 	}
 }
 
+// TestDecorations_Clear tests the Clear method of Decorations.
 func TestDecorations_Clear(t *testing.T) {
 	d := &dst.Decorations{"a", "b"}
 	d.Clear()
@@ -50,6 +53,7 @@ func TestDecorations_Clear(t *testing.T) {
 	}
 }
 
+// TestDecorations_Replace tests the Replace method of Decorations.
 func TestDecorations_Replace(t *testing.T) {
 	d := &dst.Decorations{"a", "b"}
 	d.Replace("c")
@@ -60,6 +64,7 @@ func TestDecorations_Replace(t *testing.T) {
 	}
 }
 
+// TestDecorations_Prepend tests the Prepend method of Decorations.
 func TestDecorations_Prepend(t *testing.T) {
 	d := &dst.Decorations{"a", "b"}
 	d.Prepend("c")
@@ -70,6 +75,7 @@ func TestDecorations_Prepend(t *testing.T) {
 	}
 }
 
+// TestSpaceType_String tests the String stringifier for SpaceType.
 func TestSpaceType_String(t *testing.T) {
 	if dst.None.String() != "None" {
 		t.Fatalf("expected None, found %s", dst.None.String())
@@ -85,7 +91,8 @@ func TestSpaceType_String(t *testing.T) {
 	}
 }
 
-func ExampleAlias() {
+// Example_alias demonstrates how to use the FileRestorer to control aliases.
+func Example_alias() {
 
 	code := `package main
 
@@ -122,7 +129,8 @@ func ExampleAlias() {
 
 }
 
-func ExampleManualImports() {
+// Example_manualImports demonstrates managing imports manually.
+func Example_manualImports() {
 
 	code := `package main
 
@@ -165,7 +173,8 @@ func ExampleManualImports() {
 
 }
 
-func ExampleImports() {
+// Example_imports demonstrates using decorator.Load with imports.
+func Example_imports() {
 
 	// Create a simple module in a temporary directory
 	dir, err := tempDir(map[string]string{
@@ -216,14 +225,15 @@ func ExampleImports() {
 	//func main() { fmt.Println("Hello, World!") }
 }
 
-func ExampleGoTypesImport() {
+// Example_goTypesImport demonstrates using go/types info for imports.
+func Example_goTypesImport() {
 
 	// Create a simple module in a temporary directory
 	dir, err := tempDir(map[string]string{
 		"go.mod": "module root",
 		"main.go": `package main
 
-			import . "fmt" 
+			import . "fmt"
 
 			func main() {
 				Println("a")
@@ -268,7 +278,8 @@ func ExampleGoTypesImport() {
 	//}
 }
 
-func ExampleClone() {
+// Example_clone demonstrates cloning a DST node.
+func Example_clone() {
 	code := `package main
 
 	var i /* a */ int`
@@ -297,7 +308,8 @@ func ExampleClone() {
 	//var j /* b */ int
 }
 
-func ExampleDecorationPoints() {
+// Example_decorationPoints demonstrates inspecting decoration points.
+func Example_decorationPoints() {
 	code := `package main
 	
 	// main comment
@@ -383,7 +395,8 @@ func ExampleDecorationPoints() {
 	//- Lbrace: ["\n", "// empty block"]
 }
 
-func ExampleTypes() {
+// Example_types demonstrates using AST and types with DST.
+func Example_types() {
 	code := `package main
 
 	func main() {
@@ -464,7 +477,8 @@ func ExampleTypes() {
 
 }
 
-func ExampleDecorated() {
+// Example_decorated demonstrates modifying decorated nodes.
+func Example_decorated() {
 	code := `package main
 
 	func main() {
@@ -501,7 +515,8 @@ func ExampleDecorated() {
 	//}
 }
 
-func ExampleSpace() {
+// Example_space demonstrates line spacing decoration.
+func Example_space() {
 	code := `package main
 
 	func main() {
@@ -541,7 +556,8 @@ func ExampleSpace() {
 	//}
 }
 
-func ExampleComment() {
+// Example_comment demonstrates comment decoration.
+func Example_comment() {
 	code := `package main
 
 	func main() {
@@ -571,7 +587,8 @@ func ExampleComment() {
 	//}
 }
 
-func ExampleDecorations() {
+// Example_decorations demonstrates more decoration examples.
+func Example_decorations() {
 	code := `package main
 
 	func main() {
@@ -623,7 +640,8 @@ func ExampleDecorations() {
 	//}
 }
 
-func ExampleAstBroken() {
+// Example_astBroken demonstrates where ast breaks.
+func Example_astBroken() {
 	code := `package a
 
 	func main(){
@@ -655,7 +673,8 @@ func ExampleAstBroken() {
 	//}
 }
 
-func ExampleDstFixed() {
+// Example_dstFixed demonstrates how dst fixes the ast issue.
+func Example_dstFixed() {
 	code := `package a
 
 	func main(){

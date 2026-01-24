@@ -44,9 +44,9 @@ package a`,
 
 var A /*1*/ B[ /*2*/ int /*3*/, string /*4*/] /*5*/`,
 			expect: `GenDecl [Empty line before] [End "/*5*/"]
-        Ident [End "/*1*/"]
-        IndexListExpr [Lbrack "/*2*/"] [Indices "/*4*/"]
-        Ident [End "/*3*/"]`,
+Ident [End "/*1*/"]
+IndexListExpr [Lbrack "/*2*/"] [Indices "/*4*/"]
+Ident [End "/*3*/"]`,
 		},
 		{
 			name: "type params",
@@ -56,33 +56,33 @@ func /*1*/ A[ /*2*/ B /*3*/ any /*4*/, C /*5*/ int /*6*/ | /*7*/ int64 /*8*/]( /
 	return 0
 }`,
 			expect: `FuncDecl [Empty line before] [Func "/*1*/"] [Params "/*12*/"] [Results "/*13*/"]
-        FieldList [Opening "/*2*/"]
-        Field [End "/*4*/"]
-        Ident [End "/*3*/"]
-        Field [End "/*8*/"]
-        Ident [End "/*5*/"]
-        BinaryExpr [X "/*6*/"] [Op "/*7*/"]
-        FieldList [Opening "/*9*/"]
-        Field [End "/*11*/"]
-        Ident [End "/*10*/"]
-        ReturnStmt [New line before] [New line after]`,
+FieldList [Opening "/*2*/"]
+Field [End "/*4*/"]
+Ident [End "/*3*/"]
+Field [End "/*8*/"]
+Ident [End "/*5*/"]
+BinaryExpr [X "/*6*/"] [Op "/*7*/"]
+FieldList [Opening "/*9*/"]
+Field [End "/*11*/"]
+Ident [End "/*10*/"]
+ReturnStmt [New line before] [New line after]`,
 		},
 
 		{
 			name: "import-blocks",
 			code: `package main
 
-				// first-import-block
-            	import (
-					"root/a"
-					"root/b"
-				)
+// first-import-block
+import (
+	"root/a"
+	"root/b"
+)
 
-				// second-import-block
-				import (
-					"root/c"
-					"root/d"
-				)`,
+// second-import-block
+import (
+	"root/c"
+	"root/d"
+)`,
 			expect: `GenDecl [Empty line before] [Start "// first-import-block"] [Empty line after]
 ImportSpec [New line before] [New line after]
 ImportSpec [New line before] [New line after]
@@ -153,8 +153,7 @@ const c = 1 +
 // d1
 
 // d2
-const d = 1
-`,
+const d = 1`,
 			expect: `GenDecl [Empty line before] [End "\n" "// a1" "\n" "// a2"] [New line after]
 BasicLit [New line before]
 GenDecl [New line before] [Empty line after]
@@ -166,12 +165,12 @@ GenDecl [Empty line before] [Start "// d1" "\n" "// d2"]`,
 			name: "net-hook",
 			code: `package a
 
-				var a = func(
-					b int,
-					c int,
-				) int {
-					return 1
-				}`,
+var a = func(
+	b int,
+	c int,
+) int {
+	return 1
+}`,
 			expect: `GenDecl [Empty line before]
 Field [New line before] [New line after]
 Field [New line before] [New line after]
@@ -181,27 +180,27 @@ ReturnStmt [New line before] [New line after]`,
 			name: "multi-line-string",
 			code: `package a
 
-				var a = b{
-					c: ` + "`" + `
+var a = b{
+	c: ` + "`" + `
 ` + "`" + `,
-				}`,
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [New line after]`,
 		},
 		{
 			name: "case clause",
 			code: `package a
-			
-				func main() {
-					switch a {
-					case 1:
-						// a
-					// b
-					case 2:
-					// c
-					case 3:
-					}
-				}`,
+
+func main() {
+	switch a {
+	case 1:
+		// a
+	// b
+	case 2:
+	// c
+	case 3:
+	}
+}`,
 			expect: `FuncDecl [Empty line before]
 SwitchStmt [New line before] [New line after]
 CaseClause [New line before] [End "\n" "// a"] [New line after]
@@ -211,26 +210,26 @@ CaseClause [New line before] [Start "// c"] [New line after]`,
 		{
 			name: "block comment",
 			code: `package a
-				
-				/*
-					foo
-				*/
-				var i int`,
-			expect: `GenDecl [Empty line before] [Start "/*\n\tfoo\n*/" "\n"]`,
+
+/*
+	foo
+*/
+var i int`,
+			expect: `GenDecl [Empty line before] [Start "/*\nfoo\n*/" "\n"]`,
 		},
 		{
 			name: "case comment",
 			code: `package a
 
-				func main() {
-					switch {
-					default:
-						// b
-						// c
+func main() {
+	switch {
+	default:
+		// b
+		// c
 
-						var i int
-					}
-				}`,
+		var i int
+	}
+}`,
 			expect: `FuncDecl [Empty line before]
 SwitchStmt [New line before] [New line after]
 CaseClause [New line before] [Colon "\n" "// b" "// c"] [New line after]
@@ -240,7 +239,7 @@ DeclStmt [Empty line before]`,
 			name: "file",
 			code: `/*Start*/ package /*Package*/ postests /*Name*/
 
-			var i int`,
+var i int`,
 			expect: `File [Start "/*Start*/"] [Package "/*Package*/"] [Name "/*Name*/"]
 GenDecl [Empty line before]`,
 		},
@@ -248,10 +247,10 @@ GenDecl [Empty line before]`,
 
 			name: "TypeAssertExpr",
 			code: `package main
-			
-			// TypeAssertExpr
-			var I interface{}
-			var J = I. /*TypeAssertExprX*/ ( /*TypeAssertExprLparen*/ int /*TypeAssertExprType*/)`,
+
+// TypeAssertExpr
+var I interface{}
+var J = I. /*TypeAssertExprX*/ ( /*TypeAssertExprLparen*/ int /*TypeAssertExprType*/)`,
 			expect: `GenDecl [Empty line before] [Start "// TypeAssertExpr"] [New line after]
 GenDecl [New line before]
 TypeAssertExpr [X "/*TypeAssertExprX*/"] [Lparen "/*TypeAssertExprLparen*/"] [Type "/*TypeAssertExprType*/"]`,
@@ -260,12 +259,12 @@ TypeAssertExpr [X "/*TypeAssertExprX*/"] [Lparen "/*TypeAssertExprLparen*/"] [Ty
 			name: "range bug",
 			code: `package main
 
-				func main() {
-					/*Start*/
-					for /*For*/ k /*Key*/, v /*Value*/ := range /*Range*/ a /*X*/ {
-						print(k, v)
-					} /*End*/
-				}`,
+func main() {
+	/*Start*/
+	for /*For*/ k /*Key*/, v /*Value*/ := range /*Range*/ a /*X*/ {
+		print(k, v)
+	} /*End*/
+}`,
 			expect: `FuncDecl [Empty line before]
 RangeStmt [New line before] [Start "/*Start*/" "\n"] [For "/*For*/"] [Key "/*Key*/"] [Value "/*Value*/"] [Range "/*Range*/"] [X "/*X*/"] [End "/*End*/"] [New line after]
 ExprStmt [New line before] [New line after]`,
@@ -274,9 +273,9 @@ ExprStmt [New line before] [New line after]`,
 			name: "value spec",
 			code: `package main
 
-				func main() {
-					var foo int
-				}`,
+func main() {
+	var foo int
+}`,
 			expect: `FuncDecl [Empty line before]
 DeclStmt [New line before] [New line after]`,
 		},
@@ -284,20 +283,20 @@ DeclStmt [New line before] [New line after]`,
 			name: "chan type",
 			code: `package main
 
-				type Y /*Start*/ chan /*Begin*/ <- /*Arrow*/ int /*End*/`,
+type Y /*Start*/ chan /*Begin*/ int /*End*/`,
 			expect: `GenDecl [Empty line before] [End "/*End*/"]
 TypeSpec [Name "/*Start*/"]
-ChanType [Begin "/*Begin*/"] [Arrow "/*Arrow*/"]`,
+ChanType [Begin "/*Begin*/"]`,
 		},
 		{
 			name: "inside if block",
 			code: `package main
 
-				func main() {
-					if true {
-						// a
-					}
-				}`,
+func main() {
+	if true {
+		// a
+	}
+}`,
 			expect: `FuncDecl [Empty line before]
 IfStmt [New line before] [New line after]
 BlockStmt [Lbrace "\n" "// a"]`,
@@ -305,54 +304,54 @@ BlockStmt [Lbrace "\n" "// a"]`,
 		{
 			name: "simple",
 			code: `package main
-			
-			func main() {
-				i // foo
-			}`,
+
+func main() {
+	i // foo
+}`,
 			expect: `FuncDecl [Empty line before]
 ExprStmt [New line before] [End "// foo"] [New line after]`,
 		},
 		{
 			name: "inline comment inside node",
 			code: `package main
-			
-			func main() {
-				i /* foo */ ++
-			}`,
+
+func main() {
+	i /* foo */ ++
+}`,
 			expect: `FuncDecl [Empty line before]
 IncDecStmt [New line before] [X "/* foo */"] [New line after]`,
 		},
 		{
 			name: "comment statement spaced",
 			code: `package main
-			
-			func main() {
 
-				// foo
+func main() {
 
-				i
-			}`,
+	// foo
+
+	i
+}`,
 			expect: `FuncDecl [Empty line before]
 ExprStmt [Empty line before] [Start "// foo" "\n"] [New line after]`,
 		},
 		{
 			name: "comment statement",
 			code: `package main
-			
-			func main() {
-				// foo
-				i
-			}`,
+
+func main() {
+	// foo
+	i
+}`,
 			expect: `FuncDecl [Empty line before]
 ExprStmt [New line before] [Start "// foo"] [New line after]`,
 		},
 		{
 			name: "comment after lbrace",
 			code: `package main
-			
-			func main() { // foo
-				i
-			}`,
+
+func main() { // foo
+	i
+}`,
 			expect: `FuncDecl [Empty line before]
 BlockStmt [Lbrace "// foo"]
 ExprStmt [New line before] [New line after]`,
@@ -360,10 +359,10 @@ ExprStmt [New line before] [New line after]`,
 		{
 			name: "comment after func",
 			code: `package main
-			
-			func /* foo */ main() {
-				i
-			}`,
+
+func /* foo */ main() {
+	i
+}`,
 			expect: `FuncDecl [Empty line before] [Func "/* foo */"]
 ExprStmt [New line before] [New line after]`,
 		},
@@ -371,9 +370,9 @@ ExprStmt [New line before] [New line after]`,
 			name: "field",
 			code: `package main
 
-			type A struct {
-				A /*IdentEnd*/ int /*FieldType*/ ` + "`" + `a:"a"` + "`" + `
-			}`,
+type A struct {
+	A /*IdentEnd*/ int /*FieldType*/ ` + "`" + `a:"a"` + "`" + `
+}`,
 			expect: `GenDecl [Empty line before]
 Field [New line before] [Type "/*FieldType*/"] [New line after]
 Ident [End "/*IdentEnd*/"]`,
@@ -382,10 +381,10 @@ Ident [End "/*IdentEnd*/"]`,
 			name: "composite literal",
 			code: `package main
 
-			var A = B{
-				"a": "b",
-				"c": "d", // foo
-			}`,
+var A = B{
+	"a": "b",
+	"c": "d", // foo
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [New line after]
 KeyValueExpr [New line before] [End "// foo"] [New line after]`,
@@ -394,11 +393,11 @@ KeyValueExpr [New line before] [End "// foo"] [New line after]`,
 			name: "composite literal 1",
 			code: `package main
 
-			var A = B{
-				"a": "b",
-				// foo
-				"c": "d",
-			}`,
+var A = B{
+	"a": "b",
+	// foo
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [New line after]
 KeyValueExpr [New line before] [Start "// foo"] [New line after]`,
@@ -407,12 +406,12 @@ KeyValueExpr [New line before] [Start "// foo"] [New line after]`,
 			name: "composite literal 2",
 			code: `package main
 
-			var A = B{
-				"a": "b",
+var A = B{
+	"a": "b",
 
-				// foo
-				"c": "d",
-			}`,
+	// foo
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [Empty line after]
 KeyValueExpr [Empty line before] [Start "// foo"] [New line after]`,
@@ -421,13 +420,13 @@ KeyValueExpr [Empty line before] [Start "// foo"] [New line after]`,
 			name: "composite literal 3",
 			code: `package main
 
-			var A = B{
-				"a": "b",
+var A = B{
+	"a": "b",
 
-				// foo
+	// foo
 
-				"c": "d",
-			}`,
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [Empty line after]
 KeyValueExpr [Empty line before] [Start "// foo" "\n"] [New line after]`,
@@ -436,12 +435,12 @@ KeyValueExpr [Empty line before] [Start "// foo" "\n"] [New line after]`,
 			name: "composite literal 4",
 			code: `package main
 
-			var A = B{
-				"a": "b",
-				// foo
+var A = B{
+	"a": "b",
+	// foo
 
-				"c": "d",
-			}`,
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [End "\n" "// foo"] [Empty line after]
 KeyValueExpr [Empty line before] [New line after]`,
@@ -450,11 +449,11 @@ KeyValueExpr [Empty line before] [New line after]`,
 			name: "composite literal 4a",
 			code: `package main
 
-			var A = B{
-				"a": "b",
-				// foo
-				"c": "d",
-			}`,
+var A = B{
+	"a": "b",
+	// foo
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [New line after]
 KeyValueExpr [New line before] [Start "// foo"] [New line after]`,
@@ -463,10 +462,10 @@ KeyValueExpr [New line before] [Start "// foo"] [New line after]`,
 			name: "composite literal 5",
 			code: `package main
 
-			var A = B{
-				"a": "b", // foo
-				"c": "d",
-			}`,
+var A = B{
+	"a": "b", // foo
+	"c": "d",
+}`,
 			expect: `GenDecl [Empty line before]
 KeyValueExpr [New line before] [End "// foo"] [New line after]
 KeyValueExpr [New line before] [New line after]`,
@@ -474,12 +473,27 @@ KeyValueExpr [New line before] [New line after]`,
 		{
 			name: "FuncDecl",
 			code: `package main
-			
-			// FuncDecl
-			func /*FuncDeclDoc*/ (a *b) /*FuncDeclRecv*/ c /*FuncDeclName*/ (d, e int) /*FuncDeclParams*/ (f, g int) /*FuncDeclType*/ {
-			}`,
+
+// FuncDecl
+func /*FuncDeclDoc*/ (a *b) /*FuncDeclRecv*/ c /*FuncDeclName*/ (d, e int) /*FuncDeclParams*/ (f, g int) /*FuncDeclType*/ {
+}`,
 			expect: `FuncDecl [Empty line before] [Start "// FuncDecl"] [Func "/*FuncDeclDoc*/"] [Recv "/*FuncDeclRecv*/"] [Name "/*FuncDeclName*/"] [Params "/*FuncDeclParams*/"] [Results "/*FuncDeclType*/"]
 BlockStmt [Lbrace "\n"]`,
+		},
+		{
+			name: "eats empty lines",
+			code: `package main
+
+func main() {
+	if true {
+	}
+
+	a := "Hello, world!"
+}`,
+			expect: `FuncDecl [Empty line before]
+IfStmt [New line before] [Empty line after]
+BlockStmt [Lbrace "\n"]
+AssignStmt [Empty line before] [New line after]`,
 		},
 	}
 	var solo bool
@@ -647,6 +661,13 @@ var multiSpaces = regexp.MustCompile(" {2,}")
 func normalize(s string) string {
 	s = multiSpaces.ReplaceAllString(s, "")
 	s = strings.Replace(s, "\t", "", -1)
+
+	lines := strings.Split(s, "\n")
+	for i, line := range lines {
+		lines[i] = strings.TrimRight(line, " ")
+	}
+	s = strings.Join(lines, "\n")
+
 	s = strings.TrimSpace(s)
 	return s
 }

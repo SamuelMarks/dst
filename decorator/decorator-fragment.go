@@ -11,10 +11,12 @@ import (
 	"github.com/dave/dst"
 )
 
+// addDecorationFragment adds a decoration fragment to the list.
 func (f *fileDecorator) addDecorationFragment(n ast.Node, name string, pos token.Pos) {
 	f.fragments = append(f.fragments, &decorationFragment{Node: n, Name: name, Pos: token.Pos(f.cursor)})
 }
 
+// addTokenFragment adds a token fragment to the list.
 func (f *fileDecorator) addTokenFragment(n ast.Node, t token.Token, pos token.Pos) {
 	if pos.IsValid() {
 		f.cursor = int(pos)
@@ -23,6 +25,7 @@ func (f *fileDecorator) addTokenFragment(n ast.Node, t token.Token, pos token.Po
 	f.cursor += len(t.String())
 }
 
+// addStringFragment adds a string fragment to the list.
 func (f *fileDecorator) addStringFragment(n ast.Node, s string, pos token.Pos) {
 	if pos.IsValid() {
 		f.cursor = int(pos)
@@ -31,6 +34,7 @@ func (f *fileDecorator) addStringFragment(n ast.Node, s string, pos token.Pos) {
 	f.cursor += len(s)
 }
 
+// addBadFragment adds a bad fragment to the list.
 func (f *fileDecorator) addBadFragment(n ast.Node, pos token.Pos, length int) {
 	if pos.IsValid() {
 		f.cursor = int(pos)
@@ -39,18 +43,21 @@ func (f *fileDecorator) addBadFragment(n ast.Node, pos token.Pos, length int) {
 	f.cursor += length
 }
 
+// addCommentFragment adds a comment fragment to the list.
 func (f *fileDecorator) addCommentFragment(text string, pos token.Pos) {
 	// Don't need to worry about the cursor with comments - they are added to the fragment list in
 	// the wrong order, then we sort the list based on Pos
 	f.fragments = append(f.fragments, &commentFragment{Text: text, Pos: pos})
 }
 
+// addNewlineFragment adds a newline fragment to the list.
 func (f *fileDecorator) addNewlineFragment(pos token.Pos, empty bool) {
 	// Don't need to worry about the cursor with newlines - they are added to the fragment list in
 	// the wrong order, then we sort the list based on Pos
 	f.fragments = append(f.fragments, &newlineFragment{Pos: pos, Empty: empty})
 }
 
+// fragment fragments the node.
 func (f *fileDecorator) fragment(node ast.Node) {
 
 	// For all nodes, we add decoration, token and string fragments
@@ -206,6 +213,7 @@ func (f *fileDecorator) fragment(node ast.Node) {
 	}
 }
 
+// link links the fragments.
 func (f *fileDecorator) link() {
 
 	// Pass 1: associate comment groups with decorations. Sweep up any other comments / new-lines /
@@ -345,10 +353,14 @@ func (f *fileDecorator) link() {
 					spaceType = dst.EmptyLine
 				}
 				if foundBefore {
-					f.before[nodeBefore] = spaceType
+					if spaceType > f.before[nodeBefore] {
+						f.before[nodeBefore] = spaceType
+					}
 				}
 				if foundAfter {
-					f.after[nodeAfter] = spaceType
+					if spaceType > f.after[nodeAfter] {
+						f.after[nodeAfter] = spaceType
+					}
 				}
 				continue
 			}
@@ -378,6 +390,7 @@ func (f *fileDecorator) link() {
 	return
 }
 
+// appendDecoration appends a decoration to the map
 func appendDecoration(m map[ast.Node]map[string][]string, n ast.Node, pos, text string) {
 	if m[n] == nil {
 		m[n] = map[string][]string{}
@@ -385,6 +398,7 @@ func appendDecoration(m map[ast.Node]map[string][]string, n ast.Node, pos, text 
 	m[n][pos] = append(m[n][pos], text)
 }
 
+// appendNewLine appends a newline to the map
 func appendNewLine(m map[ast.Node]map[string][]string, n ast.Node, pos string, empty bool) {
 	if m[n] == nil {
 		m[n] = map[string][]string{}
@@ -402,6 +416,7 @@ func appendNewLine(m map[ast.Node]map[string][]string, n ast.Node, pos string, e
 	}
 }
 
+// attachToDecoration attaches fragments to a decoration fragment.
 func (f *fileDecorator) attachToDecoration(frags []fragment, decorations map[ast.Node]map[string][]string, dec *decorationFragment) {
 	for _, fr := range frags {
 		switch fr := fr.(type) {
@@ -415,6 +430,7 @@ func (f *fileDecorator) attachToDecoration(frags []fragment, decorations map[ast
 	}
 }
 
+// findDecoration finds a decoration fragment.
 func (f *fileDecorator) findDecoration(stopAtNewline, stopAtEmptyLine bool, from int, direction int, onlyClause bool) (swept []fragment, dec *decorationFragment, found bool) {
 	var frags []fragment
 	for i := from; i < len(f.fragments) && i >= 0; i += direction {
@@ -463,6 +479,7 @@ func (f *fileDecorator) findDecoration(stopAtNewline, stopAtEmptyLine bool, from
 	return
 }
 
+// findNode finds a node fragment.
 func (f *fileDecorator) findNode(from int, direction int) (node ast.Node, dec *decorationFragment, found bool) {
 
 	var name string
@@ -495,6 +512,7 @@ func (f *fileDecorator) findNode(from int, direction int) (node ast.Node, dec *d
 	return
 }
 
+// findIndentedComments finds indented comments.
 func (f *fileDecorator) findIndentedComments(from int, indents [2]int) (frags [2][]fragment, nextDecoration *decorationFragment) {
 	var stage int
 	var pastNewline bool // while this is false, we're on the same line that the stmt ended, so we accept all comments regardless of the indent (e.g. empty clauses) - see "hanging-indent-same-line" test case.
@@ -532,29 +550,34 @@ func (f *fileDecorator) findIndentedComments(from int, indents [2]int) (frags [2
 	return
 }
 
+// fragment is the interface implemented by all fragment types
 type fragment interface {
 	Position() token.Pos
 	Newline() bool // True if the fragment ends in a newline ("\n" or "//...")
 }
 
+// tokenFragment structure
 type tokenFragment struct {
 	Node  ast.Node
 	Token token.Token
 	Pos   token.Pos
 }
 
+// stringFragment structure
 type stringFragment struct {
 	Node   ast.Node
 	String string
 	Pos    token.Pos
 }
 
+// badFragment structure
 type badFragment struct {
 	Node   ast.Node
 	Pos    token.Pos
 	Length int
 }
 
+// commentFragment structure
 type commentFragment struct {
 	Text     string
 	Pos      token.Pos
@@ -562,32 +585,57 @@ type commentFragment struct {
 	Indent   int                 // indent if this comment follows a newline
 }
 
+// newlineFragment structure
 type newlineFragment struct {
 	Pos      token.Pos
 	Empty    bool                // true if this newline is an empty line (e.g. follows a "//" comment or "\n")
 	Attached *decorationFragment // where did we attach this comment in pass 1?
 }
 
+// decorationFragment structure
 type decorationFragment struct {
 	Node ast.Node
 	Name string
 	Pos  token.Pos
 }
 
-func (v *tokenFragment) Position() token.Pos      { return v.Pos }
-func (v *stringFragment) Position() token.Pos     { return v.Pos }
-func (v *commentFragment) Position() token.Pos    { return v.Pos }
-func (v *newlineFragment) Position() token.Pos    { return v.Pos }
+// Position returns the position.
+func (v *tokenFragment) Position() token.Pos { return v.Pos }
+
+// Position returns the position.
+func (v *stringFragment) Position() token.Pos { return v.Pos }
+
+// Position returns the position.
+func (v *commentFragment) Position() token.Pos { return v.Pos }
+
+// Position returns the position.
+func (v *newlineFragment) Position() token.Pos { return v.Pos }
+
+// Position returns the position.
 func (v *decorationFragment) Position() token.Pos { return v.Pos }
-func (v *badFragment) Position() token.Pos        { return v.Pos }
 
-func (v *tokenFragment) Newline() bool      { return false }
-func (v *stringFragment) Newline() bool     { return false }
-func (v *commentFragment) Newline() bool    { return strings.HasPrefix(v.Text, "//") }
-func (v *newlineFragment) Newline() bool    { return true }
+// Position returns the position.
+func (v *badFragment) Position() token.Pos { return v.Pos }
+
+// Newline returns true if the fragment ends in a newline
+func (v *tokenFragment) Newline() bool { return false }
+
+// Newline returns true if the fragment ends in a newline
+func (v *stringFragment) Newline() bool { return false }
+
+// Newline returns true if the fragment ends in a newline
+func (v *commentFragment) Newline() bool { return strings.HasPrefix(v.Text, "//") }
+
+// Newline returns true if the fragment ends in a newline
+func (v *newlineFragment) Newline() bool { return true }
+
+// Newline returns true if the fragment ends in a newline
 func (v *decorationFragment) Newline() bool { return false }
-func (v *badFragment) Newline() bool        { return false }
 
+// Newline returns true if the fragment ends in a newline
+func (v *badFragment) Newline() bool { return false }
+
+// debug prints the fragments to w
 func (f fileDecorator) debug(w io.Writer) {
 	formatPos := func(s token.Position) string {
 		return s.String()[strings.Index(s.String(), ":")+1:]
