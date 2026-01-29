@@ -11,8 +11,10 @@ type ArrayTypeDecorations struct {
 
 // AssignStmtDecorations holds decorations for AssignStmt:
 //
-//	/*Start*/
-//	i = /*Tok*/ 1 /*End*/
+//	*Start*/
+//		i = /*Tok*/ 1 /*End*/
+//
+//		//
 type AssignStmtDecorations struct {
 	NodeDecs
 	Tok Decorations
@@ -49,11 +51,15 @@ type BinaryExprDecorations struct {
 
 // BlockStmtDecorations holds decorations for BlockStmt:
 //
-//	if true /*Start*/ { /*Lbrace*/
-//		i++
-//	} /*End*/
+//	f true /*Start*/ { /*Lbrace*/
+//			i++
+//		} /*End*/
 //
-//	func() /*Start*/ { /*Lbrace*/ i++ } /*End*/ ()
+//		//
+//
+//	unc() /*Start*/ { /*Lbrace*/ i++ } /*End*/ ()
+//
+//		//
 type BlockStmtDecorations struct {
 	NodeDecs
 	Lbrace Decorations
@@ -61,8 +67,10 @@ type BlockStmtDecorations struct {
 
 // BranchStmtDecorations holds decorations for BranchStmt:
 //
-//	/*Start*/
-//	goto /*Tok*/ A /*End*/
+//	*Start*/
+//		goto /*Tok*/ A /*End*/
+//
+//		//
 type BranchStmtDecorations struct {
 	NodeDecs
 	Tok Decorations
@@ -80,10 +88,12 @@ type CallExprDecorations struct {
 
 // CaseClauseDecorations holds decorations for CaseClause:
 //
-//	switch i {
-//	/*Start*/ case /*Case*/ 1: /*Colon*/
-//		i++ /*End*/
-//	}
+//	witch i {
+//		/*Start*/ case /*Case*/ 1: /*Colon*/
+//			i++ /*End*/
+//		}
+//
+//		//
 type CaseClauseDecorations struct {
 	NodeDecs
 	Case  Decorations
@@ -105,10 +115,12 @@ type ChanTypeDecorations struct {
 
 // CommClauseDecorations holds decorations for CommClause:
 //
-//	select {
-//	/*Start*/ case /*Case*/ a := <-c /*Comm*/ : /*Colon*/
-//		print(a) /*End*/
-//	}
+//	elect {
+//		/*Start*/ case /*Case*/ a := <-c /*Comm*/ : /*Colon*/
+//			print(a) /*End*/
+//		}
+//
+//		//
 type CommClauseDecorations struct {
 	NodeDecs
 	Case  Decorations
@@ -132,8 +144,10 @@ type DeclStmtDecorations struct {
 
 // DeferStmtDecorations holds decorations for DeferStmt:
 //
-//	/*Start*/
-//	defer /*Defer*/ func() {}() /*End*/
+//	*Start*/
+//		defer /*Defer*/ func() {}() /*End*/
+//
+//		//
 type DeferStmtDecorations struct {
 	NodeDecs
 	Defer Decorations
@@ -189,20 +203,26 @@ type FileDecorations struct {
 
 // ForStmtDecorations holds decorations for ForStmt:
 //
-//	/*Start*/
-//	for /*For*/ {
-//		i++
-//	} /*End*/
+//	*Start*/
+//		for /*For*/ {
+//			i++
+//		} /*End*/
 //
-//	/*Start*/
-//	for /*For*/ i < 1 /*Cond*/ {
-//		i++
-//	} /*End*/
+//		//
 //
-//	/*Start*/
-//	for /*For*/ i = 0; /*Init*/ i < 10; /*Cond*/ i++ /*Post*/ {
-//		i++
-//	} /*End*/
+//	*Start*/
+//		for /*For*/ i < 1 /*Cond*/ {
+//			i++
+//		} /*End*/
+//
+//		//
+//
+//	*Start*/
+//		for /*For*/ i = 0; /*Init*/ i < 10; /*Cond*/ i++ /*Post*/ {
+//			i++
+//		} /*End*/
+//
+//		//
 type ForStmtDecorations struct {
 	NodeDecs
 	For  Decorations
@@ -213,25 +233,33 @@ type ForStmtDecorations struct {
 
 // FuncDeclDecorations holds decorations for FuncDecl:
 //
-//	/*Start*/
+//	Start*/
 //	func /*Func*/ d /*Name*/ (d, e int) /*Params*/ {
 //		return
 //	} /*End*/
 //
-//	/*Start*/
+//	//
+//
+//	Start*/
 //	func /*Func*/ TP /*Name*/ [P any] /*TypeParams*/ (a int) /*Params*/ (b P) /*Results*/ {
 //		return b
 //	} /*End*/
 //
-//	/*Start*/
+//	//
+//
+//	Start*/
 //	func /*Func*/ (a *A) /*Recv*/ e /*Name*/ (d, e int) /*Params*/ {
 //		return
 //	} /*End*/
 //
-//	/*Start*/
+//	//
+//
+//	Start*/
 //	func /*Func*/ (a *A) /*Recv*/ f /*Name*/ (d, e int) /*Params*/ (f, g int) /*Results*/ {
 //		return
 //	} /*End*/
+//
+//	//
 type FuncDeclDecorations struct {
 	NodeDecs
 	Func       Decorations
@@ -262,14 +290,18 @@ type FuncTypeDecorations struct {
 
 // GenDeclDecorations holds decorations for GenDecl:
 //
-//	/*Start*/
-//	const /*Tok*/ ( /*Lparen*/
-//		a, b = 1, 2
-//		c    = 3
-//	) /*End*/
+//	*Start*/
+//		const /*Tok*/ ( /*Lparen*/
+//			a, b = 1, 2
+//			c    = 3
+//		) /*End*/
 //
-//	/*Start*/
-//	const /*Tok*/ d = 1 /*End*/
+//		//
+//
+//	*Start*/
+//		const /*Tok*/ d = 1 /*End*/
+//
+//		//
 type GenDeclDecorations struct {
 	NodeDecs
 	Tok    Decorations
@@ -278,8 +310,10 @@ type GenDeclDecorations struct {
 
 // GoStmtDecorations holds decorations for GoStmt:
 //
-//	/*Start*/
-//	go /*Go*/ func() {}() /*End*/
+//	*Start*/
+//		go /*Go*/ func() {}() /*End*/
+//
+//		//
 type GoStmtDecorations struct {
 	NodeDecs
 	Go Decorations
@@ -287,11 +321,15 @@ type GoStmtDecorations struct {
 
 // IdentDecorations holds decorations for Ident:
 //
-//	/*Start*/
-//	i /*End*/ ++
+//	*Start*/
+//		i /*End*/ ++
 //
-//	/*Start*/
-//	fmt. /*X*/ Print /*End*/ ()
+//		//
+//
+//	*Start*/
+//		fmt. /*X*/ Print /*End*/ ()
+//
+//		//
 type IdentDecorations struct {
 	NodeDecs
 	X Decorations
@@ -299,12 +337,14 @@ type IdentDecorations struct {
 
 // IfStmtDecorations holds decorations for IfStmt:
 //
-//	/*Start*/
-//	if /*If*/ a := b; /*Init*/ a /*Cond*/ {
-//		i++
-//	} else /*Else*/ {
-//		i++
-//	} /*End*/
+//	*Start*/
+//		if /*If*/ a := b; /*Init*/ a /*Cond*/ {
+//			i++
+//		} else /*Else*/ {
+//			i++
+//		} /*End*/
+//
+//		//
 type IfStmtDecorations struct {
 	NodeDecs
 	If   Decorations
@@ -325,8 +365,10 @@ type ImportSpecDecorations struct {
 
 // IncDecStmtDecorations holds decorations for IncDecStmt:
 //
-//	/*Start*/
-//	i /*X*/ ++ /*End*/
+//	*Start*/
+//		i /*X*/ ++ /*End*/
+//
+//		//
 type IncDecStmtDecorations struct {
 	NodeDecs
 	X Decorations
@@ -344,7 +386,9 @@ type IndexExprDecorations struct {
 
 // IndexListExprDecorations holds decorations for IndexListExpr:
 //
-//	var T4 /*Start*/ T3 /*X*/ [ /*Lbrack*/ int, string /*Indices*/] /*End*/
+//	ar T4 /*Start*/ T3 /*X*/ [ /*Lbrack*/ int, string /*Indices*/] /*End*/
+//
+//		//
 type IndexListExprDecorations struct {
 	NodeDecs
 	X       Decorations
@@ -378,6 +422,8 @@ type KeyValueExprDecorations struct {
 //	/*Start*/
 //	A /*Label*/ : /*Colon*/
 //		print("Stmt") /*End*/
+//
+//		//
 type LabeledStmtDecorations struct {
 	NodeDecs
 	Label Decorations
@@ -409,19 +455,25 @@ type ParenExprDecorations struct {
 
 // RangeStmtDecorations holds decorations for RangeStmt:
 //
-//	/*Start*/
-//	for range /*Range*/ a /*X*/ {
-//	} /*End*/
+//	*Start*/
+//		for range /*Range*/ a /*X*/ {
+//		} /*End*/
 //
-//	/*Start*/
-//	for /*For*/ k /*Key*/ := range /*Range*/ a /*X*/ {
-//		print(k)
-//	} /*End*/
+//		//
 //
-//	/*Start*/
-//	for /*For*/ k /*Key*/, v /*Value*/ := range /*Range*/ a /*X*/ {
-//		print(k, v)
-//	} /*End*/
+//	*Start*/
+//		for /*For*/ k /*Key*/ := range /*Range*/ a /*X*/ {
+//			print(k)
+//		} /*End*/
+//
+//		//
+//
+//	*Start*/
+//		for /*For*/ k /*Key*/, v /*Value*/ := range /*Range*/ a /*X*/ {
+//			print(k, v)
+//		} /*End*/
+//
+//		//
 type RangeStmtDecorations struct {
 	NodeDecs
 	For   Decorations
@@ -433,9 +485,11 @@ type RangeStmtDecorations struct {
 
 // ReturnStmtDecorations holds decorations for ReturnStmt:
 //
-//	func() int {
-//		/*Start*/ return /*Return*/ 1 /*End*/
-//	}()
+//	unc() int {
+//			/*Start*/ return /*Return*/ 1 /*End*/
+//		}()
+//
+//		//
 type ReturnStmtDecorations struct {
 	NodeDecs
 	Return Decorations
@@ -443,9 +497,11 @@ type ReturnStmtDecorations struct {
 
 // SelectStmtDecorations holds decorations for SelectStmt:
 //
-//	/*Start*/
-//	select /*Select*/ {
-//	} /*End*/
+//	*Start*/
+//		select /*Select*/ {
+//		} /*End*/
+//
+//		//
 type SelectStmtDecorations struct {
 	NodeDecs
 	Select Decorations
@@ -461,8 +517,10 @@ type SelectorExprDecorations struct {
 
 // SendStmtDecorations holds decorations for SendStmt:
 //
-//	/*Start*/
-//	c /*Chan*/ <- /*Arrow*/ 0 /*End*/
+//	*Start*/
+//		c /*Chan*/ <- /*Arrow*/ 0 /*End*/
+//
+//		//
 type SendStmtDecorations struct {
 	NodeDecs
 	Chan  Decorations
@@ -511,13 +569,17 @@ type StructTypeDecorations struct {
 
 // SwitchStmtDecorations holds decorations for SwitchStmt:
 //
-//	/*Start*/
-//	switch /*Switch*/ i /*Tag*/ {
-//	} /*End*/
+//	*Start*/
+//		switch /*Switch*/ i /*Tag*/ {
+//		} /*End*/
 //
-//	/*Start*/
-//	switch /*Switch*/ a := i; /*Init*/ a /*Tag*/ {
-//	} /*End*/
+//		//
+//
+//	*Start*/
+//		switch /*Switch*/ a := i; /*Init*/ a /*Tag*/ {
+//		} /*End*/
+//
+//		//
 type SwitchStmtDecorations struct {
 	NodeDecs
 	Switch Decorations
@@ -537,40 +599,53 @@ type TypeAssertExprDecorations struct {
 
 // TypeSpecDecorations holds decorations for TypeSpec:
 //
-//	type (
-//		/*Start*/ T1 /*Name*/ []int /*End*/
-//	)
+//	ype (
+//			/*Start*/ T1 /*Name*/ []int /*End*/
+//		)
 //
-//	type (
-//		/*Start*/ T2 = /*Name*/ T1 /*End*/
-//	)
+//		//
 //
-//	type (
-//		/*Start*/ T3 /*Name*/ [P any, Q any] /*TypeParams*/ []P /*End*/
-//	)
+//	ype (
+//			/*Start*/ T2 = /*Assign*/ T1 /*End*/
+//		)
+//
+//		//
+//
+//	ype (
+//			/*Start*/ T3 /*Name*/ [P any, Q any] /*TypeParams*/ []P /*End*/
+//		)
+//
+//		//
 type TypeSpecDecorations struct {
 	NodeDecs
 	Name       Decorations
 	TypeParams Decorations
+	Assign     Decorations
 }
 
 // TypeSwitchStmtDecorations holds decorations for TypeSwitchStmt:
 //
-//	/*Start*/
-//	switch /*Switch*/ f.(type) /*Assign*/ {
-//	} /*End*/
+//	*Start*/
+//		switch /*Switch*/ f.(type) /*Assign*/ {
+//		} /*End*/
 //
-//	/*Start*/
-//	switch /*Switch*/ g := f.(type) /*Assign*/ {
-//	case int:
-//		print(g)
-//	} /*End*/
+//		//
 //
-//	/*Start*/
-//	switch /*Switch*/ g := f; /*Init*/ g := g.(type) /*Assign*/ {
-//	case int:
-//		print(g)
-//	} /*End*/
+//	*Start*/
+//		switch /*Switch*/ g := f.(type) /*Assign*/ {
+//		case int:
+//			print(g)
+//		} /*End*/
+//
+//		//
+//
+//	*Start*/
+//		switch /*Switch*/ g := f; /*Init*/ g := g.(type) /*Assign*/ {
+//		case int:
+//			print(g)
+//		} /*End*/
+//
+//		//
 type TypeSwitchStmtDecorations struct {
 	NodeDecs
 	Switch Decorations
@@ -588,17 +663,23 @@ type UnaryExprDecorations struct {
 
 // ValueSpecDecorations holds decorations for ValueSpec:
 //
-//	var (
-//		/*Start*/ j = /*Assign*/ 1 /*End*/
-//	)
+//	ar (
+//			/*Start*/ j = /*Assign*/ 1 /*End*/
+//		)
 //
-//	var (
-//		/*Start*/ k, l = /*Assign*/ 1, 2 /*End*/
-//	)
+//		//
 //
-//	var (
-//		/*Start*/ m, n int = /*Assign*/ 1, 2 /*End*/
-//	)
+//	ar (
+//			/*Start*/ k, l = /*Assign*/ 1, 2 /*End*/
+//		)
+//
+//		//
+//
+//	ar (
+//			/*Start*/ m, n int = /*Assign*/ 1, 2 /*End*/
+//		)
+//
+//		//
 type ValueSpecDecorations struct {
 	NodeDecs
 	Assign Decorations
