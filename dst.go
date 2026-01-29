@@ -594,10 +594,10 @@ type (
 	//
 	// Relationship between Tok value and Specs element type:
 	//
-	//	token.IMPORT  *ImportSpec
-	//	token.CONST   *ValueSpec
-	//	token.TYPE    *TypeSpec
-	//	token.VAR     *ValueSpec
+	//   token.IMPORT  *ImportSpec
+	//   token.CONST   *ValueSpec
+	//   token.TYPE    *TypeSpec
+	//   token.VAR     *ValueSpec
 	//
 	GenDecl struct {
 		Tok    token.Token // IMPORT, CONST, TYPE, or VAR
@@ -651,6 +651,7 @@ type File struct {
 	Imports    []*ImportSpec // imports in this file
 	Unresolved []*Ident      // unresolved identifiers in this file
 	Decs       FileDecorations
+	GoVersion  string // minimum Go version required by this file (e.g. "go1.21")
 }
 
 // A Package node represents a set of source files
